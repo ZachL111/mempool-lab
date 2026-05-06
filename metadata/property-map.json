@@ -1,0 +1,28 @@
+{
+  "repo": "mempool-lab",
+  "language": "Rust",
+  "category": "Crypto and simulation",
+  "goal": "Simulate mempool admission, replacement rules, fee bands, and block selection.",
+  "weights": {
+    "signal": 4,
+    "slack": 1,
+    "confidence": 2,
+    "drag": 2
+  },
+  "thresholds": {
+    "ship": 189,
+    "watch": 109
+  },
+  "properties": [
+    "raising signal cannot reduce score",
+    "raising drag cannot improve score",
+    "lane labels must match configured thresholds",
+    "golden fixture ids must remain unique"
+  ],
+  "fixture_files": [
+    "fixtures/golden/scoreboard.csv",
+    "fixtures/golden/lane-matrix.csv",
+    "fixtures/fuzz/mutations.csv",
+    "fixtures/fuzz/boundary-cases.jsonl"
+  ]
+}

@@ -58,3 +58,13 @@ foreach ($pathPattern in $knownPaths) {
 cargo test
 
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-mempool-lab-detail.ps1
+
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-mempool-lab-properties.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-mempool-lab-golden.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
