@@ -1,69 +1,40 @@
 # mempool-lab
 
-`mempool-lab` explores crypto and simulation in Rust. The repository keeps the core rule set compact, then surrounds it with examples that show how the decisions move.
+`mempool-lab` keeps a focused Rust implementation around crypto and simulation. The project goal is to simulate mempool admission, replacement rules, fee bands, and block selection.
 
-## Mempool Lab Notes
+## Why I Keep It Small
 
-The quickest review path is the verifier first, then the fixtures, then the operations note. That order makes it easy to see whether the code, data, and explanation still agree.
+The project exists to keep a narrow engineering decision visible and testable. For this repo, that decision is how fee pressure and block fit should influence a review result.
 
-## Why This Exists
+## Mempool Lab Review Notes
 
-The goal is to capture the core behavior in code and make the surrounding assumptions obvious. A reader should be able to run the verifier, open the fixtures, and understand why each decision was made.
+The first comparison I would make is `replacement margin` against `mempool churn` because it shows where the rule is most opinionated.
 
-## Implementation Notes
+## Included Behavior
 
-The core is a scoring model over demand, capacity, latency, risk, and weight. That keeps transaction pressure, fee pressure, and block selection in one explicit decision path. The threshold is 152, with risk penalty 5, latency penalty 3, and weight bonus 6. The Rust code keeps ownership and data movement plain, which makes the tests useful for checking both behavior and API shape.
+- `fixtures/domain_review.csv` adds cases for fee pressure and mempool churn.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/mempool-lab-walkthrough.md` walks through the case spread.
+- The Rust code includes a review path for `replacement margin` and `mempool churn`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Example Scenarios
+## Internal Model
 
-`pressure` is the first example I would inspect because it lands on the `review` path with a score of 96. The broader file also keeps `degraded` at 5 and `surge` at 259, which gives the model a useful low-to-high spread.
+The fixture data drives the tests. The code stays thin, while `metadata/domain-review.json` and `config/review-profile.json` explain what each case is meant to protect.
 
-## Feature Notes
+The Rust addition stays small enough to inspect in one sitting.
 
-- Uses fixture data to keep fee pressure changes visible in code review.
-- Includes extended examples for block selection, including `surge` and `degraded`.
-- Documents replacement policy tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-
-## Local Setup
-
-The only required setup is the local Rust toolchain. After cloning, stay in the repo root so fixture paths resolve correctly.
-
-## Tests
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Code Tour
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-- `Cargo.toml`: Rust package metadata
-
-## Boundaries
-
-The fixture set is deliberately small. That keeps the review surface clear, but it also means the model should not be treated as a complete domain simulator.
-
-## Roadmap
-
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Add one more crypto and simulation fixture that focuses on a malformed or borderline input.
-
-## Try It
+## Try It Locally
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Validation
+
+The same command runs the local verification path. The highest-scoring domain case is `recovery` at 248, which lands in `ship`. The most cautious case is `stress` at 159, which lands in `ship`.
+
+## Scope
+
+No external service is required. A deeper version would add more negative cases and a clearer boundary around invalid input.

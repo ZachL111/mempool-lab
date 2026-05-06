@@ -56,3 +56,5 @@ foreach ($pathPattern in $knownPaths) {
 }
 
 cargo test
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-mempool-lab-detail.ps1

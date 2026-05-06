@@ -1,0 +1,73 @@
+{
+  "repo": "mempool-lab",
+  "language": "Rust",
+  "category": "Crypto and simulation",
+  "goal": "Simulate mempool admission, replacement rules, fee bands, and block selection.",
+  "review_model": {
+    "terms": [
+      "fee pressure",
+      "mempool churn",
+      "block fit",
+      "replacement margin"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "fee pressure",
+      "signal": 75,
+      "slack": 34,
+      "drag": 20,
+      "confidence": 54,
+      "score": 178,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "mempool churn",
+      "signal": 62,
+      "slack": 44,
+      "drag": 27,
+      "confidence": 72,
+      "score": 159,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "block fit",
+      "signal": 63,
+      "slack": 25,
+      "drag": 14,
+      "confidence": 76,
+      "score": 185,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "replacement margin",
+      "signal": 81,
+      "slack": 35,
+      "drag": 13,
+      "confidence": 90,
+      "score": 248,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "fee pressure",
+      "signal": 86,
+      "slack": 31,
+      "drag": 8,
+      "confidence": 56,
+      "score": 235,
+      "lane": "ship"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+name,focus,signal,slack,drag,confidence,score,lane
+baseline,fee pressure,75,34,20,54,178,ship
+stress,mempool churn,62,44,27,72,159,ship
+edge,block fit,63,25,14,76,185,ship
+recovery,replacement margin,81,35,13,90,248,ship
+stale,fee pressure,86,31,8,56,235,ship
